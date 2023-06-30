@@ -4,12 +4,14 @@ import React, { useState } from "react"
 interface MainListProps {
   data: any[]
   onItemSelect: (id: number) => void
+  onItemDeselect: (id: number) => void
   selectedItems: any[]
 }
 
 export const MainList = ({
   data,
   onItemSelect,
+  onItemDeselect,
   selectedItems,
 }: MainListProps) => {
   const [searchTerm, setSearchTerm] = useState("")
@@ -32,7 +34,11 @@ export const MainList = ({
             checked={selectedItems.some(
               (selectedItem) => selectedItem.id === item.id,
             )}
-            onChange={() => onItemSelect(item.id)}
+            onChange={() =>
+              selectedItems.some((selectedItem) => selectedItem.id === item.id)
+                ? onItemDeselect(item.id)
+                : onItemSelect(item.id)
+            }
           />
           {item.name}
         </div>

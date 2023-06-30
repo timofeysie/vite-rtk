@@ -1,4 +1,12 @@
-# vite-template-redux
+# Vite RTK
+
+Vite with our [Redux+TS template](https://redux.js.org/introduction/getting-started) (using the `degit` tool to clone and extract the template)
+
+```sh
+npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
+```
+
+## vite-template-redux
 
 Uses [Vite](https://vitejs.dev/), [Vitest](https://vitest.dev/), and [React Testing Library](https://github.com/testing-library/react-testing-library) to create a modern [React](https://react.dev/) app compatible with [Create React App](https://create-react-app.dev/)
 
