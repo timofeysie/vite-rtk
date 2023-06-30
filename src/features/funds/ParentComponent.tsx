@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from "react"
 import { MainList } from "./MainList"
 import { SelectedItemsList } from "./SelectedItemsList"
@@ -12,7 +11,8 @@ export const ParentComponent = () => {
 
   const handleItemSelect = (id: number) => {
     const selectedItem = data.find((item) => item.id === id)
-    if (selectedItem && !selectedItems.some((item) => item.id === id)) {
+    const sameItemExists = selectedItems.some((item) => item.id === id);
+    if (selectedItem && !sameItemExists) {
       setSelectedItems([...selectedItems, selectedItem])
     }
   }
