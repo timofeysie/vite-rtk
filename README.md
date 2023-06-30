@@ -75,22 +75,24 @@ npm install –save-dev cypress@12.5.1
 
 Once the initial setup is completed
 
-Goto cypress.config.js and add the following commands , these commands should be inside the e2e : {}
+Create cypress.config.js and add the following:
 
 {
     specPattern: "cypress/e2e/\*_/_.{js,jsx,ts,tsx,feature}",
     chromeWebSecurity: false,
     defaultCommandTimeout: 10000,
     pageLoadTimeout: 120000,
-    baseUrl: "https://devappcf.quantflo.com/",
+    baseUrl: "http://127.0.0.1:5173/",
 },
+
 Installing cypress xpaths
-Enter the following command on the terminal to install cypress-xpath:
 
 npm install -D cypress-xpath
+
 And add the following code line in the e2e.js file in the support folder.
 
 require('cypress-xpath');
+
 Setting up Cucumber
 Enter the following command on the terminal
 
