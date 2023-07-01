@@ -1,16 +1,11 @@
 import { defineConfig } from "cypress";
+import cucumber from "cypress-cucumber-preprocessor";
+import { beforeRunHook, afterRunHook } from "cypress-mochawesome-reporter/lib";
 
 export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      const cucumber = require("cypress-cucumber-preprocessor").default;
-      const {
-        beforeRunHook,
-        afterRunHook,
-      } = require("cypress-mochawesome-reporter/lib");
-
       on("file:preprocessor", cucumber());
-      require("cypress-mochawesome-reporter/plugin")(on);
       on("before:run", async (details) => {
         console.log("override before:run");
         await beforeRunHook(details);
