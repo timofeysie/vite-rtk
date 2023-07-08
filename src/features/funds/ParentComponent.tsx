@@ -1,50 +1,30 @@
-import React, { useState } from "react"
-import { MainList } from "./MainList"
-import { SelectedItemsList } from "./SelectedItemsList"
-import data from "./data.json"
-import { Card, CardContent, Grid } from "@mui/material"
+import * as React from 'react';
+import { MainList } from './MainList';
+import { SelectedItemsList } from './SelectedItemsList';
+import { Fund } from './Fund';
 
-export const ParentComponent = () => {
-  const [selectedItems, setSelectedItems] = useState(
-    data.filter((item) => item.selected),
-  )
+type Props = {
+  fundList: Fund[];
+  selectedIds: number[];
+};
 
-  const handleItemSelect = (id: number) => {
-    const selectedItem = data.find((item) => item.id === id)
-    const sameItemExists = selectedItems.some((item) => item.id === id);
-    if (selectedItem && !sameItemExists) {
-      setSelectedItems([...selectedItems, selectedItem])
-    }
-  }
+export const ParentComponent = ({ fundList, selectedIds }: Props) => {
+  const [selectedFunds, setSelectedFunds] = React.useState<Fund[]>([]);
 
-  const handleItemDeselect = (id: number) => {
-    setSelectedItems(selectedItems.filter((item) => item.id !== id))
-  }
+  React.useEffect(() => {
+    const newSelectedFunds = fundList.filter((fund) => selectedIds.includes(fund.id));
+    setSelectedFunds(newSelectedFunds);
+  }, [fundList, selectedIds]);
+
+  const handleSelectionChange = (ids: number[]) => {
+    const newSelectedFunds = fundList.filter((fund) => ids.includes(fund.id));
+    setSelectedFunds(newSelectedFunds);
+  };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={6}>
-        <Card>
-          <CardContent>
-            <MainList
-              data={data}
-              onItemSelect={handleItemSelect}
-              onItemDeselect={handleItemDeselect}
-              selectedItems={selectedItems}
-            />
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={6}>
-        <Card>
-          <CardContent>
-            <SelectedItemsList
-              data={selectedItems}
-              onItemDeselect={handleItemDeselect}
-            />
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
-  )
-}
+    <>
+      <MainList fundList={fundList} onSelectionChange={handleSelectionChange} />
+      <SelectedItemsList fundList={selectedFunds} />
+    </>
+  );
+};

@@ -1,47 +1,35 @@
-import React, { useState } from "react"
+import * as React from 'react';
+import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid';
+import { Fund } from './Fund';
 
-interface MainListProps {
-  data: any[]
-  onItemSelect: (id: number) => void
-  onItemDeselect: (id: number) => void
-  selectedItems: any[]
-}
+type Props = {
+  fundList: Fund[];
+  onSelectionChange: (ids: number[]) => void;
+};
 
-export const MainList = ({
-  data,
-  onItemSelect,
-  onItemDeselect,
-  selectedItems,
-}: MainListProps) => {
-  const [searchTerm, setSearchTerm] = useState("")
+const columns: GridColDef[] = [
+  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'name', headerName: 'Name', width: 130 },
+  { field: 'holdings', headerName: 'Holdings', width: 200 },
+];
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
-  }
+export const MainList = ({ fundList, onSelectionChange }: Props) => {
+  const [selectionModel, setSelectionModel] = React.useState<GridRowId[]>([]);
 
-  const filteredData = data.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+  const handleSelectionChange = (newSelectionModel: GridRowId[]) => {
+    setSelectionModel(newSelectionModel);
+    onSelectionChange(newSelectionModel.map(Number));
+  };
 
   return (
-    <div>
-      <input type="text" value={searchTerm} onChange={handleSearchChange} />
-      {filteredData.map((item) => (
-        <div key={item.id}>
-          <input
-            type="checkbox"
-            checked={selectedItems.some(
-              (selectedItem) => selectedItem.id === item.id,
-            )}
-            onChange={() =>
-              selectedItems.some((selectedItem) => selectedItem.id === item.id)
-                ? onItemDeselect(item.id)
-                : onItemSelect(item.id)
-            }
-          />
-          {item.name}
-        </div>
-      ))}
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={fundList}
+        columns={columns}
+        checkboxSelection
+        onRowSelectionModelChange={handleSelectionChange}
+        rowSelectionModel={selectionModel}
+      />
     </div>
-  )
-}
+  );
+};

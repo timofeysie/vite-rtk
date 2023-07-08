@@ -1,26 +1,21 @@
-import React from "react"
+import * as React from 'react';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Fund } from './Fund';
 
-interface SelectedItemsListProps {
-  data: any[]
-  onItemDeselect: (id: number) => void
-}
+type Props = {
+  fundList: Fund[];
+};
 
-export const SelectedItemsList = ({
-  data,
-  onItemDeselect,
-}: SelectedItemsListProps) => {
+const columns: GridColDef[] = [
+  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'name', headerName: 'Name', width: 130 },
+  { field: 'holdings', headerName: 'Holdings', width: 200 },
+];
+
+export const SelectedItemsList = ({ fundList }: Props) => {
   return (
-    <div>
-      {data.map((item) => (
-        <div key={item.id}>
-          <input
-            type="checkbox"
-            checked={true}
-            onChange={() => onItemDeselect(item.id)}
-          />
-          {item.name}
-        </div>
-      ))}
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid rows={fundList} columns={columns} />
     </div>
-  )
-}
+  );
+};
