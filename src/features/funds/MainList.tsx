@@ -4,6 +4,7 @@ import { Fund } from './Fund';
 
 type Props = {
   fundList: Fund[];
+  selectedIds: number[];
   onSelectionChange: (ids: number[]) => void;
 };
 
@@ -13,8 +14,8 @@ const columns: GridColDef[] = [
   { field: 'holdings', headerName: 'Holdings', width: 200 },
 ];
 
-export const MainList = ({ fundList, onSelectionChange }: Props) => {
-  const [selectionModel, setSelectionModel] = React.useState<GridRowId[]>([]);
+export const MainList = ({ fundList, selectedIds, onSelectionChange }: Props) => {
+  const [selectionModel, setSelectionModel] = React.useState<GridRowId[]>(selectedIds);
 
   const handleSelectionChange = (newSelectionModel: GridRowId[]) => {
     setSelectionModel(newSelectionModel);

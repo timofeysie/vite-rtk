@@ -10,21 +10,29 @@ type Props = {
 
 export const ParentComponent = ({ fundList, selectedIds }: Props) => {
   const [selectedFunds, setSelectedFunds] = React.useState<Fund[]>([]);
+  const [mainListSelectedIds, setMainListSelectedIds] = React.useState<number[]>(selectedIds);
 
   React.useEffect(() => {
     const newSelectedFunds = fundList.filter((fund) => selectedIds.includes(fund.id));
     setSelectedFunds(newSelectedFunds);
   }, [fundList, selectedIds]);
 
-  const handleSelectionChange = (ids: number[]) => {
+  const handleMainListSelectionChange = (ids: number[]) => {
+    setMainListSelectedIds(ids);
     const newSelectedFunds = fundList.filter((fund) => ids.includes(fund.id));
+    setSelectedFunds(newSelectedFunds);
+  };
+
+  const handleSelectedItemsListSelectionChange = (ids: number[]) => {
+    setMainListSelectedIds(ids);
+    const newSelectedFunds = selectedFunds.filter((fund) => ids.includes(fund.id));
     setSelectedFunds(newSelectedFunds);
   };
 
   return (
     <>
-      <MainList fundList={fundList} onSelectionChange={handleSelectionChange} />
-      <SelectedItemsList fundList={selectedFunds} />
+      <MainList fundList={fundList} selectedIds={mainListSelectedIds} onSelectionChange={handleMainListSelectionChange} />
+      <SelectedItemsList fundList={selectedFunds} onSelectionChange={handleSelectedItemsListSelectionChange} />
     </>
   );
 };
