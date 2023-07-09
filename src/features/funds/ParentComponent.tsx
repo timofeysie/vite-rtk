@@ -1,19 +1,27 @@
-import * as React from "react"
+import { useEffect, useState } from "react"
 import { MainList } from "./MainList"
 import { SelectedItemsList } from "./SelectedItemsList"
 import { Fund } from "./Fund"
+import data from "./data.json";
 
 type Props = {
-  fundList: Fund[]
   selectedIds: number[]
 }
 
-export const ParentComponent = ({ fundList, selectedIds }: Props) => {
-  const [selectedFunds, setSelectedFunds] = React.useState<Fund[]>([])
-  const [mainListSelectedIds, setMainListSelectedIds] =
-    React.useState<number[]>(selectedIds)
+function mapSelectedIdsToFundList(fundList: Fund[], selectedIds: number[]): Fund[] {
+  return fundList.map((fund) => ({
+    ...fund,
+    selected: selectedIds.includes(fund.id),
+  }));
+}
 
-  React.useEffect(() => {
+export const ParentComponent = ({ selectedIds }: Props) => {
+  const [fundList, setFundList] = useState<Fund[]>(data);
+  const [selectedFunds, setSelectedFunds] = useState<Fund[]>([])
+  const [mainListSelectedIds, setMainListSelectedIds] =
+    useState<number[]>(selectedIds)
+
+  useEffect(() => {
     const newSelectedFunds = fundList.filter((fund) =>
       selectedIds.includes(fund.id),
     )
@@ -32,7 +40,20 @@ export const ParentComponent = ({ fundList, selectedIds }: Props) => {
       ids.includes(fund.id),
     )
     setSelectedFunds(newSelectedFunds)
+    // update the selected property on the main list
+    const newFundList = fundList.map((fund) => ({
+      ...fund,
+      selected: ids.includes(fund.id),
+    }));
+    setFundList(newFundList);
   }
+
+  useEffect(() => {
+    const newSelectedFunds = fundList.filter((fund) =>
+      selectedIds.includes(fund.id),
+    )
+    setSelectedFunds(newSelectedFunds)
+  }, [fundList, selectedIds])
 
   return (
     <>

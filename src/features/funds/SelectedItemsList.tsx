@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid"
 import { Fund } from "./Fund"
 
@@ -17,10 +17,13 @@ export const SelectedItemsList = ({
   fundList, 
   onSelectionChange 
 }: Props) => {
-  console.log('fundList', fundList)
   const [selectionModel, setSelectionModel] = 
     useState<GridRowId[]>(fundList.map((fund) => fund.id),
   )
+
+  useEffect(() => {
+    setSelectionModel(fundList.filter((fund) => fund.selected).map((fund) => fund.id));
+  }, [fundList]);
 
   const handleSelectionChange = (newSelectionModel: GridRowId[]) => {
     setSelectionModel(newSelectionModel)
