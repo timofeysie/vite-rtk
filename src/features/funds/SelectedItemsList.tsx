@@ -1,29 +1,34 @@
-import * as React from 'react';
-import { DataGrid, GridColDef, GridRowId } from '@mui/x-data-grid';
-import { Fund } from './Fund';
+import { useState } from "react"
+import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid"
+import { Fund } from "./Fund"
 
 type Props = {
-  fundList: Fund[];
-  onSelectionChange: (ids: number[]) => void;
-};
+  fundList: Fund[]
+  onSelectionChange: (ids: number[]) => void
+}
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'name', headerName: 'Name', width: 130 },
-  { field: 'holdings', headerName: 'Holdings', width: 200 },
-];
+  { field: "id", headerName: "ID", width: 70 },
+  { field: "name", headerName: "Name", width: 130 },
+  { field: "holdings", headerName: "Holdings", width: 200 },
+]
 
-export const SelectedItemsList = ({ fundList, onSelectionChange }: Props) => {
-  console.log('fundList', fundList);
-  const [selectionModel, setSelectionModel] = React.useState<GridRowId[]>(fundList.map((fund) => fund.id));
+export const SelectedItemsList = ({ 
+  fundList, 
+  onSelectionChange 
+}: Props) => {
+  console.log('fundList', fundList)
+  const [selectionModel, setSelectionModel] = 
+    useState<GridRowId[]>(fundList.map((fund) => fund.id),
+  )
 
   const handleSelectionChange = (newSelectionModel: GridRowId[]) => {
-    setSelectionModel(newSelectionModel);
-    onSelectionChange(newSelectionModel.map(Number));
-  };
+    setSelectionModel(newSelectionModel)
+    onSelectionChange(newSelectionModel.map(Number))
+  }
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 400, width: "100%" }}>
       <DataGrid
         rows={fundList}
         columns={columns}
@@ -32,5 +37,5 @@ export const SelectedItemsList = ({ fundList, onSelectionChange }: Props) => {
         rowSelectionModel={selectionModel}
       />
     </div>
-  );
-};
+  )
+}
