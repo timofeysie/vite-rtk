@@ -2,21 +2,24 @@ import { useEffect, useState } from "react"
 import { MainList } from "./MainList"
 import { SelectedItemsList } from "./SelectedItemsList"
 import { Fund } from "./Fund"
-import data from "./data.json";
+import data from "./data.json"
 
 type Props = {
   selectedIds: number[]
 }
 
-function mapSelectedIdsToFundList(fundList: Fund[], selectedIds: number[]): Fund[] {
+function mapSelectedIdsToFundList(
+  fundList: Fund[],
+  selectedIds: number[],
+): Fund[] {
   return fundList.map((fund) => ({
     ...fund,
     selected: selectedIds.includes(fund.id),
-  }));
+  }))
 }
 
 export const ParentComponent = ({ selectedIds }: Props) => {
-  const [fundList, setFundList] = useState<Fund[]>(data);
+  const [fundList, setFundList] = useState<Fund[]>(data)
   const [selectedFunds, setSelectedFunds] = useState<Fund[]>([])
   const [mainListSelectedIds, setMainListSelectedIds] =
     useState<number[]>(selectedIds)
@@ -30,7 +33,12 @@ export const ParentComponent = ({ selectedIds }: Props) => {
 
   const handleMainListSelectionChange = (ids: number[]) => {
     setMainListSelectedIds(ids)
-    const newSelectedFunds = fundList.filter((fund) => ids.includes(fund.id))
+    const newSelectedFunds = fundList
+      .filter((fund) => ids.includes(fund.id))
+      .map((fund) => ({
+        ...fund,
+        selected: ids.includes(fund.id),
+      }))
     setSelectedFunds(newSelectedFunds)
   }
 
@@ -39,21 +47,14 @@ export const ParentComponent = ({ selectedIds }: Props) => {
     const newSelectedFunds = selectedFunds.filter((fund) =>
       ids.includes(fund.id),
     )
-    setSelectedFunds(newSelectedFunds)
-    // update the selected property on the main list
+    setSelectedFunds(newSelectedFunds) // update the selected property on the main list
     const newFundList = fundList.map((fund) => ({
       ...fund,
       selected: ids.includes(fund.id),
-    }));
-    setFundList(newFundList);
+    }))
+    setFundList(newFundList)
+    setMainListSelectedIds(ids)
   }
-
-  useEffect(() => {
-    const newSelectedFunds = fundList.filter((fund) =>
-      selectedIds.includes(fund.id),
-    )
-    setSelectedFunds(newSelectedFunds)
-  }, [fundList, selectedIds])
 
   return (
     <>
@@ -63,7 +64,7 @@ export const ParentComponent = ({ selectedIds }: Props) => {
         onSelectionChange={handleMainListSelectionChange}
       />
       <SelectedItemsList
-        fundList={selectedFunds}
+        selectedFunds={selectedFunds}
         onSelectionChange={handleSelectedItemsListSelectionChange}
       />
     </>

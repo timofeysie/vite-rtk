@@ -3,7 +3,7 @@ import { DataGrid, GridColDef, GridRowId } from "@mui/x-data-grid"
 import { Fund } from "./Fund"
 
 type Props = {
-  fundList: Fund[]
+  selectedFunds: Fund[]
   onSelectionChange: (ids: number[]) => void
 }
 
@@ -14,26 +14,32 @@ const columns: GridColDef[] = [
 ]
 
 export const SelectedItemsList = ({ 
-  fundList, 
+  selectedFunds, 
   onSelectionChange 
 }: Props) => {
   const [selectionModel, setSelectionModel] = 
-    useState<GridRowId[]>(fundList.map((fund) => fund.id),
+    useState<GridRowId[]>(selectedFunds.map((fund) => fund.id),
   )
 
+  /**
+   * Make sure the selected funds have their checkboxes selected on 
+   */
   useEffect(() => {
-    setSelectionModel(fundList.filter((fund) => fund.selected).map((fund) => fund.id));
-  }, [fundList]);
+    const selected =  selectedFunds.filter((fund) => fund.selected);
+    const selectedIds = selected.map((fund) => fund.id);
+    setSelectionModel(selectedIds);
+  }, [selectedFunds]);
 
   const handleSelectionChange = (newSelectionModel: GridRowId[]) => {
     setSelectionModel(newSelectionModel)
-    onSelectionChange(newSelectionModel.map(Number))
+    const newMap = newSelectionModel.map(Number);
+    onSelectionChange(newMap)
   }
 
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={fundList}
+        rows={selectedFunds}
         columns={columns}
         checkboxSelection
         onRowSelectionModelChange={handleSelectionChange}

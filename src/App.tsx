@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <ParentComponent fundList={data} selectedIds={selectedIds} />
+        <ParentComponent selectedIds={selectedIds} />
         {/* <Counter /> */}
       </header>
     </div>
