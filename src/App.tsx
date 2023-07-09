@@ -1,8 +1,7 @@
-import logo from "./logo.svg"
 import { Counter } from "./features/counter/Counter"
 import { ParentComponent } from "./features/funds/ParentComponent"
 import "./App.css"
-import data from "./features/funds/data.json";
+import { VanillaCheckboxesParent } from "./features/vanilla-checkboxes/VanillaCheckboxesParent";
 
 function App() {
   const selectedIds = [1, 3];
@@ -11,6 +10,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <ParentComponent selectedIds={selectedIds} />
+        <VanillaCheckboxesParent />
         {/* <Counter /> */}
       </header>
     </div>

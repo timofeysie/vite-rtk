@@ -1,0 +1,26 @@
+[
+    {
+      "id": 1,
+      "name": "one",
+      "holdings": "2022-12-30 to 2022-12-30",
+      "selected": true
+    },
+    {
+      "id": 2,
+      "name": "two",
+      "holdings": "2022-12-30 to 2022-12-30",
+      "selected": false
+    },
+    {
+      "id": 3,
+      "name": "three",
+      "holdings": "2022-12-30 to 2022-12-30",
+      "selected": true
+    },
+    {
+      "id": 4,
+      "name": "four",
+      "holdings": "2022-12-30 to 2022-12-30",
+      "selected": false
+    }
+  ]
